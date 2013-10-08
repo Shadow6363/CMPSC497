@@ -1,0 +1,37 @@
+Hi, how many are in your party?
+3.
+My name is Eliza.
+I'll be serving you tonight.
+Is there anything I can get you to drink?
+Soda.
+Water.
+Wine.
+Alright, I'll be right back with those.
+Here's your soda.
+Here's your water.
+Here's your wine.
+Have you decided what you'd like to eat?
+No.
+Alright, I'll give you a few.
+How about now?
+Yes.
+What would you like?
+Spaghetti.
+What would you recommend?
+Our blackened salmon is well-liked.
+That.
+Pizza.
+Sounds good. I'll get those to you as soon as they're out.
+Here's your spaghetti.
+Here's your salmon.
+Here's your pizza.
+Be careful, it's right out of the oven and very hot.
+Can I get you anything else?
+A refill.
+Sure thing.
+Can I get you anything else?
+The check please.
+Would you like a single check or separate?
+Separate.
+Here are your checks.
+Have a good night!

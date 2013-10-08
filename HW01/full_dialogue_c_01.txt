@@ -1,0 +1,23 @@
+Hi, how many are in your party?
+2
+My name is Eliza.
+I'll be serving you tonight.
+Is there anything I can get you to drink?
+I'll have a water.
+Could I have a wine please?
+Alright, I'll be right back with those.
+Here's your water.
+Here's your wine.
+Have you decided what you'd like to eat?
+Yes, I think so.
+What would you like?
+Could I have the salmon?
+I'll have the spaghetti.
+Sounds good. I'll get those to you as soon as they're out.
+Here's your salmon.
+Here's your spaghetti.
+Can I get you anything else?
+Just the check please.
+Would you like a single check or separate?
+All together please.
+Here's your check.

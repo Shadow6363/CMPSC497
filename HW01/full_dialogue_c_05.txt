@@ -1,0 +1,3 @@
+Hi, how many are in your party?
+There's 10 of us.
+I'm sorry, we can only take parties of 9 or fewer tonight due to a wedding.
