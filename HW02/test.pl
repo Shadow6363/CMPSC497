@@ -3,28 +3,47 @@
 #use strict;
 use warnings;
 
-use List::Util qw(min);
+use List::Util qw(min reduce);
 
-sub levenshtein {
-    my ($str1, $str2) = @_;
-    my @ar1 = split //, $str1;
-    my @ar2 = split //, $str2;
+sub min_edit_distance {
+    my ($target, $source) = @_;
+    my @ar1 = split //, $target;
+    my @ar2 = split //, $source;
 
-    my @dist;
-    $dist[$_][0] = $_ foreach (0 .. @ar1);
-    $dist[0][$_] = $_ foreach (0 .. @ar2);
+    my @distances;
+    $distances[$_][0] = $_ foreach (0 .. @ar1);
+    $distances[0][$_] = $_ foreach (0 .. @ar2);
+
+    my @direction = ("A", "B", "C");
+    my $distance;
+    my $L;
+    my $D;
+    my $C;
 
     foreach my $i (1 .. @ar1){
         foreach my $j (1 .. @ar2){
             my $cost = $ar1[$i - 1] eq $ar2[$j - 1] ? 0 : 2;
-            $dist[$i][$j] = min(
-                        $dist[$i - 1][$j] + 1,
-                        $dist[$i][$j - 1] + 1,
-                        $dist[$i - 1][$j - 1] + $cost );
+
+            $L = $distances[$i - 1][$j] + 1;
+            $D = $distances[$i][$j - 1] + 1;
+            $C = $distances[$i - 1][$j - 1] + $cost;
+            $distance = min($L, $D, $C);
+
+            if ($distance == $L) {
+                push @direction, "L";
+            } elsif ($distance == $D) {
+                push @direction, "D";
+            } else {
+                push @direction, "C";
+            }
+
+            $distances[$i][$j] = $distance;
         }
     }
 
-    return $dist[@ar1][@ar2];
+    @bleh = ($distances[@ar1][@ar2], @direction);
+
+    return @bleh;
 }
 
 my %dictionary;
@@ -34,7 +53,7 @@ open(my $fh, "<", "wordlist.txt")
 
 while (my $word = <$fh>) {
     chomp($word);
-    $dictionary{$word} = 99999;
+    $dictionary{$word} = 0;
 }
 
 close($fh)
@@ -47,19 +66,28 @@ open($fh, "<", "misspellings.txt")
 while (my $word = <$fh>) {
     chomp($word);
     if (not exists $dictionary{$word}) {
-        @top_words = ("0", "1", "2");
-        %top_word_distances = (
-            "0" => 9999999,
-            "1" => 9999999,
-            "2" => 9999999
+        my @top_words = ("0", "1", "2");
+        my %top_word_distances = (
+            "0" => 9999,
+            "1" => 9999,
+            "2" => 9999
         );
+        my %routes = (
+            "0" => qw/0/,
+            "1" => qw/1/,
+            "2" => qw/2/
+        );
+
 
         foreach my $key (keys %dictionary) {
             if (abs(length($key) - length($word)) <= $top_word_distances{$top_words[2]}) {
-                $distance = levenshtein($word, $key);
-                if ($distance < $top_word_distances{$top_words[2]}) {
+                @route = min_edit_distance($key, $word);
+                #print @route;
+                if ($route[0] < $top_word_distances{$top_words[2]}) {
+                    delete $routes{$top_words[2]};
                     delete $top_word_distances{$top_words[2]};
-                    $top_word_distances{$key} = $distance;
+                    $routes{$key} = @route[1, -1];
+                    $top_word_distances{$key} = $route[0];
                     @top_words = (sort { $top_word_distances{$a} <=> $top_word_distances{$b} } keys %top_word_distances);
                 }
             }
@@ -67,6 +95,8 @@ while (my $word = <$fh>) {
 
         print "Misspelled: $word; Suggested: ";
         print %top_word_distances;
+        print ", ";
+        print $routes{"fated"};
         print"\n";
     }
 }
